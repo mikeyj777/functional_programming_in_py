@@ -1,3 +1,4 @@
+import os
 import collections
 import multiprocessing
 import time
@@ -16,15 +17,16 @@ scientists = (
 )
 
 def transform(x):
-    # t0 = time.time()
+    t0 = time.time()
+    pid = os.getpid()
     time.sleep(1)
     res = {'name': x.name, 'age': 2024 - x.born}
-    # print(f'start time{t0}. result: {res}')
+    pprint(f'pid: {pid}. start time{t0}')
     return res
 
 if __name__ == '__main__':
 
-    pool = multiprocessing.Pool()
+    pool = multiprocessing.Pool(processes=7)
 
     t0 = time.time()
 
@@ -37,4 +39,4 @@ if __name__ == '__main__':
 
     t1 = time.time()
 
-    pprint(f'result: {result}. \n time: {t1-t0} seconds') 
+    pprint(f'time: {t1-t0} seconds') 
