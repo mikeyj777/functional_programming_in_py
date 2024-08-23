@@ -1,5 +1,6 @@
-from functools import reduce
 import collections
+import multiprocessing
+import time
 from pprint import pprint
 
 Scientist = collections.namedtuple('Scientist', ['name', 'field', 'born', 'nobel'])
@@ -14,31 +15,12 @@ scientists = (
     Scientist(name='Sir Arthur Faust', field='physics', born=1877, nobel=False),
 )
 
-names_and_ages = tuple(map(lambda x: {'name': x.name, 'age': 2024 - x.born}, scientists))
+def transform(x):
+    return {'name': x.name, 'age': 2024 - x.born}
 
-pprint('\n')
-pprint(names_and_ages)
+result = tuple(map(
+    transform,
+    scientists
+))
 
-tot_age = reduce(lambda acc, val: acc + val['age'], names_and_ages, 0)
-
-print('\n', tot_age)
-
-# group by field
-
-fields = set(s.field for s in scientists)
-d_dict = dict.fromkeys(fields, [])
-
-def reduce_func(acc, val):
-    acc[val.field].append(val.name)
-    return acc
-
-scientists_by_field = reduce(
-    reduce_func, 
-    scientists, 
-    # d_dict,
-    # {'medicine': [], 'chemistry': [], 'physics': [], 'mathematics': []},
-    collections.defaultdict(list)
-
-)
-
-pprint(scientists_by_field)
+pprint(result)
