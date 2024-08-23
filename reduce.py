@@ -1,3 +1,4 @@
+from functools import reduce
 import collections
 from pprint import pprint
 
@@ -15,10 +16,14 @@ scientists = (
 
 names_and_ages = tuple(map(lambda x: {'name': x.name, 'age': 2024 - x.born}, scientists))
 
+pprint('\n')
 pprint(names_and_ages)
 
-names_and_ages_tup = tuple({'name': x.name, 'age': 2024 - x.born} for x in scientists)
+tot_age = reduce(lambda acc, val: acc + val['age'], names_and_ages, 0)
 
-pprint(names_and_ages_tup)
+print('\n', tot_age)
 
-apple = 1
+# group by field
+
+fields = set(s.field for s in scientists)
+d_dict = dict.fromkeys(fields, [])
