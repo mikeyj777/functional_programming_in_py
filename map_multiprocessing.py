@@ -16,11 +16,25 @@ scientists = (
 )
 
 def transform(x):
-    return {'name': x.name, 'age': 2024 - x.born}
+    # t0 = time.time()
+    time.sleep(1)
+    res = {'name': x.name, 'age': 2024 - x.born}
+    # print(f'start time{t0}. result: {res}')
+    return res
 
-result = tuple(map(
-    transform,
-    scientists
-))
+if __name__ == '__main__':
 
-pprint(result)
+    pool = multiprocessing.Pool()
+
+    t0 = time.time()
+
+    result = pool.map( transform, scientists)
+
+    # result = tuple(map(
+    #     transform,
+    #     scientists
+    # ))
+
+    t1 = time.time()
+
+    pprint(f'result: {result}. \n time: {t1-t0} seconds') 
